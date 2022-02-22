@@ -11,12 +11,10 @@ import (
 	"log"
 	"runtime"
 
-	"github.com/lambher/3d/texture"
-
-	"github.com/lambher/3d/entity/scene"
-
 	"github.com/go-gl/gl/v2.1/gl"
 	"github.com/go-gl/glfw/v3.3/glfw"
+	"github.com/lambher/3d/entity/scene"
+	"github.com/lambher/3d/texture"
 )
 
 //var (

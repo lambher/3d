@@ -20,7 +20,7 @@ func NewBasic(t *texture.Texture, width, height int) *Basic {
 			height: height,
 			Entities: []entity.Entity{
 				cube.NewGrass(t, mgl32.Vec3{0, 0, -3}),
-				cube.NewGrass(t, mgl32.Vec3{0, 1, -3}),
+				//cube.NewGrass(t, mgl32.Vec3{0, 1, -3}),
 			},
 		},
 	}

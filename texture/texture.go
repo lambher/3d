@@ -9,20 +9,34 @@ import (
 	"github.com/go-gl/gl/v2.1/gl"
 )
 
+type Name string
+
+const (
+	GrassSide   Name = "grass_side"
+	GrassTop    Name = "grass_top"
+	GrassBottom Name = "grass_bottom"
+)
+
 type Texture struct {
-	GrassTexture uint32
+	Bucket map[Name]uint32
 }
 
 func NewTexture() *Texture {
-	return &Texture{}
+	return &Texture{
+		Bucket: map[Name]uint32{},
+	}
 }
 
 func (t *Texture) Load() {
-	t.GrassTexture = newTexture("./assets/grass_side.png")
+	t.Bucket[GrassSide] = newTexture("./assets/grass_side.png")
+	t.Bucket[GrassTop] = newTexture("./assets/grass_top.png")
+	t.Bucket[GrassBottom] = newTexture("./assets/gold_block.png")
 }
 
 func (t Texture) Delete() {
-	gl.DeleteTextures(1, &t.GrassTexture)
+	for _, value := range t.Bucket {
+		gl.DeleteTextures(1, &value)
+	}
 }
 
 func newTexture(file string) uint32 {
