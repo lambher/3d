@@ -7,12 +7,12 @@ import (
 	"github.com/lambher/3d/texture"
 )
 
-type Grass struct {
+type Grass2 struct {
 	*Cube
 }
 
-func NewGrass(ctx *context.Context, cube models.Cube) *Grass {
-	return &Grass{
+func NewGrass2(ctx *context.Context, cube models.Cube) *Grass2 {
+	return &Grass2{
 		Cube: &Cube{
 			textureSide:   ctx.GetTexture(texture.GrassSide),
 			textureTop:    ctx.GetTexture(texture.GrassTop),
@@ -22,11 +22,11 @@ func NewGrass(ctx *context.Context, cube models.Cube) *Grass {
 	}
 }
 
-func (g *Grass) Update() {
-	//g.rotationX += 0.1
-	//g.rotationY -= 0.5
+func (g *Grass2) Update() {
+	//g.rotationX -= 0.1
+	//g.rotationY += 0.5
 }
 
-func (g Grass) Draw() {
+func (g Grass2) Draw() {
 	g.Cube.Draw()
 }

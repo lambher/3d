@@ -3,6 +3,9 @@ package cube
 import (
 	"github.com/go-gl/gl/v2.1/gl"
 	"github.com/go-gl/mathgl/mgl32"
+	"github.com/lambher/3d/context"
+	"github.com/lambher/3d/entity"
+	"github.com/lambher/3d/models"
 )
 
 type Cube struct {
@@ -12,6 +15,20 @@ type Cube struct {
 	textureSide   uint32
 	textureTop    uint32
 	textureBottom uint32
+}
+
+func NewCube(ctx *context.Context, cube models.Cube) entity.Entity {
+	switch cube.Type {
+	case models.Grass:
+		return NewGrass(ctx, cube)
+	case models.Grass2:
+		return NewGrass2(ctx, cube)
+	}
+	return nil
+}
+
+func (c Cube) Update() {
+
 }
 
 func (c Cube) Draw() {

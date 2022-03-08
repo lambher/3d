@@ -1,29 +1,51 @@
 package scene
 
 import (
+	"encoding/json"
+	"io"
+	"os"
+
+	"github.com/lambher/3d/models"
+
 	"github.com/go-gl/gl/v2.1/gl"
-	"github.com/go-gl/mathgl/mgl32"
-	"github.com/lambher/3d/entity"
-	"github.com/lambher/3d/entity/cube"
-	"github.com/lambher/3d/texture"
+	"github.com/lambher/3d/context"
 )
 
 type Basic struct {
 	*Scene
 }
 
-func NewBasic(t *texture.Texture, width, height int) *Basic {
-	return &Basic{
+func NewBasic(ctx *context.Context) (*Basic, error) {
+	basic := &Basic{
 		Scene: &Scene{
-			t:      t,
-			width:  width,
-			height: height,
-			Entities: []entity.Entity{
-				cube.NewGrass(t, mgl32.Vec3{0, 0, -3}),
-				//cube.NewGrass(t, mgl32.Vec3{0, 1, -3}),
-			},
+			ctx: ctx,
 		},
 	}
+
+	scene, err := LoadSceneFromFile("./assets/maps/first_world/world.json")
+	if err != nil {
+		return nil, err
+	}
+
+	basic.LoadScene(ctx, scene)
+	return basic, nil
+}
+
+func LoadSceneFromFile(path string) (models.Scene, error) {
+	file, err := os.Open(path)
+	if err != nil {
+		return models.Scene{}, err
+	}
+	data, err := io.ReadAll(file)
+	if err != nil {
+		return models.Scene{}, err
+	}
+	var scene models.Scene
+	err = json.Unmarshal(data, &scene)
+	if err != nil {
+		return models.Scene{}, err
+	}
+	return scene, nil
 }
 
 func (b Basic) Setup() {
@@ -36,7 +58,7 @@ func (b Basic) Setup() {
 
 	ambient := []float32{0.5, 0.5, 0.5, 1}
 	diffuse := []float32{1, 1, 1, 1}
-	lightPosition := []float32{-5, 5, 10, 0}
+	lightPosition := []float32{b.Scene.Light.Position.X, b.Scene.Light.Position.Y, b.Scene.Light.Position.Z, 0}
 	gl.Lightfv(gl.LIGHT0, gl.AMBIENT, &ambient[0])
 	gl.Lightfv(gl.LIGHT0, gl.DIFFUSE, &diffuse[0])
 	gl.Lightfv(gl.LIGHT0, gl.POSITION, &lightPosition[0])
@@ -44,8 +66,10 @@ func (b Basic) Setup() {
 
 	gl.MatrixMode(gl.PROJECTION)
 	gl.LoadIdentity()
-	f := float64(b.width)/float64(b.height) - 1
+
+	f := float64(b.Camera.Width)/float64(b.Camera.Height) - 1
 	gl.Frustum(-1-f, 1+f, -1, 1, 1.0, 10.0)
+	gl.Translatef(b.Camera.Position.X(), b.Camera.Position.Y(), b.Camera.Position.Z())
 	gl.MatrixMode(gl.MODELVIEW)
 	gl.LoadIdentity()
 }
