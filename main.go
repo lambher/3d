@@ -9,14 +9,15 @@ import (
 	"fmt"
 	_ "image/png"
 	"log"
+	"os"
 	"runtime"
 
-	"github.com/lambher/3d/controller"
-
-	"github.com/lambher/3d/context"
+	"github.com/lambher/3d/assets/maps"
 
 	"github.com/go-gl/gl/v2.1/gl"
 	"github.com/go-gl/glfw/v3.3/glfw"
+	"github.com/lambher/3d/context"
+	"github.com/lambher/3d/controller"
 	"github.com/lambher/3d/entity/scene"
 )
 
@@ -28,6 +29,16 @@ func init() {
 }
 
 func main() {
+	if len(os.Args) == 2 {
+		if os.Args[1] == "seed" {
+			err := maps.Seed()
+			if err != nil {
+				log.Fatalln("failed to seed:", err)
+			}
+			return
+		}
+	}
+
 	if err := glfw.Init(); err != nil {
 		log.Fatalln("failed to initialize glfw:", err)
 	}
@@ -50,7 +61,7 @@ func main() {
 	ctx.Texture.Load()
 	defer ctx.Texture.Delete()
 
-	basicScene, err := scene.NewBasic(ctx)
+	basicScene, err := scene.NewBasic(ctx, os.Args[1])
 	if err != nil {
 		fmt.Println("cannot load scene", err)
 		return

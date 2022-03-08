@@ -15,14 +15,18 @@ type Basic struct {
 	*Scene
 }
 
-func NewBasic(ctx *context.Context) (*Basic, error) {
+func NewBasic(ctx *context.Context, path string) (*Basic, error) {
 	basic := &Basic{
 		Scene: &Scene{
 			ctx: ctx,
 		},
 	}
 
-	scene, err := LoadSceneFromFile("./assets/maps/first_world/world.json")
+	if path == "" {
+		path = "./assets/maps/first_world/world.json"
+	}
+
+	scene, err := LoadSceneFromFile(path)
 	if err != nil {
 		return nil, err
 	}

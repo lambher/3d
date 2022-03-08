@@ -1,0 +1,54 @@
+{
+  "light": {
+    "position": {
+      "x": 0,
+      "y": 5,
+      "z": 0
+    }
+  },
+  "camera": {
+    "view" : {
+      "x": 1600,
+      "y": 900
+    },
+    "position": {
+      "x": 0,
+      "y": 0,
+      "z": -2
+    }
+  },
+  "cubes": [
+    {
+      "type": "grass",
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    {
+      "type": "grass2",
+      "position": {
+        "x": 2,
+        "y": 0,
+        "z": 0
+      }
+    },
+    {
+      "type": "grass",
+      "position": {
+        "x": 4,
+        "y": 0,
+        "z": 0
+      }
+    },
+    {
+      "type": "grass2",
+      "position": {
+        "x": 6,
+        "y": 0,
+        "z": 0
+      }
+    }
+  ]
+}
